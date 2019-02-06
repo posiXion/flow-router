@@ -198,7 +198,14 @@ class Router {
     return new Group(this, options);
   }
 
+  sticky_field = 'partner'
   path(_pathDef, fields = {}, queryParams) {
+    // Keep a sticky field
+    if(this.sticky_field && !fields[this.sticky_field]
+        && this._current.params && this._current.params[this.sticky_field]) {
+      fields[this.sticky_field] = this._current.params[this.sticky_field]
+    }
+
     let pathDef = _pathDef;
     if (this._routesMap[pathDef]) {
       pathDef = this._routesMap[pathDef].pathDef;
